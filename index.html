@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600&family=Archivo+Narrow:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#0a0a0a;font-family:'Archivo',system-ui,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+  *{box-sizing:border-box}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:#e11414;color:#fff}
+  @keyframes yg-marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  @keyframes yg-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .yg-cta{transition:transform .15s ease,background .15s ease,color .15s ease}
+  .yg-cta:hover{transform:translateY(-2px)}
+  .yg-nav a{transition:color .15s ease}
+  .yg-nav a:hover{color:#e11414}
+  .yg-card{transition:transform .2s ease,border-color .2s ease}
+  .yg-card:hover{transform:translateY(-4px);border-color:#e11414}
+  .yg-mod{transition:background .18s ease,color .18s ease}
+  .yg-mod:hover{background:#e11414;color:#fff}
+  .yg-mod:hover .yg-mod-n{color:rgba(255,255,255,.5)}
+  .yg-det summary::-webkit-details-marker{display:none}
+  .yg-det summary{transition:background .18s ease}
+  .yg-det summary:hover{background:rgba(225,20,20,.12)}
+  .yg-det[open]>summary{background:rgba(225,20,20,.1)}
+  .yg-det[open]>summary .yg-chev{opacity:1;color:#e11414}
+  .yg-det[open]>summary .yg-chev::after{content:'';display:none}
+  .yg-les{font-family:'Archivo',sans-serif;font-weight:500;font-size:14px;color:rgba(255,255,255,.72);padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+  .yg-photo{filter:grayscale(70%) contrast(1.08);transition:filter .3s ease}
+  .yg-card:hover .yg-photo{filter:grayscale(0) contrast(1)}
+
+  /* ---------- RESPONSIVE / MOBILE ---------- */
+  @media(max-width:860px){
+    .yg-grid4{grid-template-columns:repeat(2,1fr)!important}
+    .yg-grid3{grid-template-columns:repeat(2,1fr)!important}
+    .yg-split{grid-template-columns:1fr!important}
+    .yg-split>div{border-right:none!important;border-bottom:1px solid rgba(255,255,255,.12)}
+    .yg-statbar{grid-template-columns:repeat(2,1fr)!important}
+    .yg-statbar>div:nth-child(2){border-right:none!important}
+    section{padding-left:28px!important;padding-right:28px!important}
+    .yg-split>div{padding-left:28px!important;padding-right:28px!important}
+  }
+  @media(max-width:640px){
+    h1{font-size:44px!important}
+    h2{font-size:32px!important}
+    h3{font-size:30px!important}
+    section,footer{padding-left:20px!important;padding-right:20px!important}
+    .yg-split>div{padding-left:20px!important;padding-right:20px!important;padding-top:40px!important;padding-bottom:38px!important}
+    .yg-navbar{padding-left:18px!important;padding-right:18px!important}
+    .yg-nav{gap:12px!important}
+    .yg-nav a:not(.yg-cta){display:none!important}
+    .yg-grid4,.yg-grid3{grid-template-columns:1fr!important}
+    .yg-vyhra-big{grid-column:auto!important;grid-row:auto!important;min-height:0!important}
+    .yg-modsum{grid-template-columns:32px 1fr auto!important;gap:12px!important;padding:18px 16px!important}
+    .yg-modsum>div>div:first-child{font-size:18px!important}
+    .yg-modles{grid-template-columns:1fr!important;padding:2px 16px 18px 16px!important}
+    .yg-lvl{grid-template-columns:60px 1fr!important;gap:14px!important;padding:18px 18px!important}
+    footer{flex-direction:column;align-items:flex-start!important;text-align:left!important}
+    footer>div:last-child{text-align:left!important}
+  }
+
+  /* ================= V2 — MOTION / ANIMATIONS ================= */
+  .yg-progress{position:fixed;top:0;left:0;height:3px;width:0;background:#e11414;z-index:100;box-shadow:0 0 12px rgba(225,20,20,.7);transition:width .08s linear}
+  #top::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(58% 42% at 12% 10%,rgba(255,255,255,.18),transparent 60%),radial-gradient(52% 40% at 88% 92%,rgba(0,0,0,.22),transparent 60%);animation:yg-heroglow 8s ease-in-out infinite alternate}
+  #top::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.10;background-image:linear-gradient(rgba(255,255,255,.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.6) 1px,transparent 1px);background-size:46px 46px;animation:yg-gridpan 24s linear infinite}
+  #top>*{position:relative;z-index:2}
+  @keyframes yg-heroglow{0%{opacity:.65;transform:translate3d(-2%,-1%,0)}100%{opacity:1;transform:translate3d(3%,2%,0)}}
+  @keyframes yg-gridpan{0%{background-position:0 0}100%{background-position:46px 46px}}
+  @keyframes yg-shine{0%{transform:translateX(-160%) skewX(-18deg)}100%{transform:translateX(320%) skewX(-18deg)}}
+  .yg-navbar{transition:padding .28s ease,background .28s ease,box-shadow .28s ease}
+  .yg-navbar.yg-shrink{padding-top:11px!important;padding-bottom:11px!important;background:rgba(10,10,10,.95)!important;box-shadow:0 8px 30px -18px rgba(0,0,0,.9)}
+  .yg-nav a.yg-active{color:#e11414}
+  .yg-card{will-change:transform}
+  .yg-card:hover{box-shadow:0 18px 46px -20px rgba(225,20,20,.55)}
+  .yg-cta{position:relative;isolation:isolate}
+  .yg-cta>.yg-shine{position:absolute;top:0;bottom:0;left:0;width:60%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);transform:translateX(-160%) skewX(-18deg);pointer-events:none;z-index:-1}
+  .yg-cta:hover>.yg-shine{animation:yg-shine .85s ease}
+  @media(prefers-reduced-motion:no-preference){
+    .yg-reveal{opacity:0;transform:translateY(28px) scale(.99);transition:opacity .72s cubic-bezier(.22,.7,.16,1),transform .72s cubic-bezier(.22,.7,.16,1)}
+    .yg-reveal.yg-in{opacity:1;transform:none}
+  }
+  @keyframes yg-rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:no-preference){
+    #top h1{animation:yg-rise .9s .06s both cubic-bezier(.22,.7,.16,1)}
+    #top p{animation:yg-rise .9s .18s both cubic-bezier(.22,.7,.16,1)}
+    #top .yg-cta{animation:yg-rise .9s .30s both cubic-bezier(.22,.7,.16,1)}
+    .yg-statbar>div{animation:yg-rise .7s both cubic-bezier(.22,.7,.16,1)}
+    .yg-statbar>div:nth-child(1){animation-delay:.34s}
+    .yg-statbar>div:nth-child(2){animation-delay:.42s}
+    .yg-statbar>div:nth-child(3){animation-delay:.50s}
+    .yg-statbar>div:nth-child(4){animation-delay:.58s}
+  }
+</style>
+</helmet>
+
+<div style="max-width:1180px;margin:0 auto;background:#0a0a0a;overflow:hidden">
+
+  <!-- ================= NAV ================= -->
+  <div class="yg-navbar" style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:rgba(10,10,10,.86);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)">
+    <a href="#top" style="display:flex;align-items:center;gap:10px">
+      <div style="width:24px;height:24px;background:#e11414;transform:skewX(-10deg)"></div>
+      <span style="font-family:'Anton',sans-serif;font-size:20px;letter-spacing:.04em">YOUR GAME</span>
+    </a>
+    <div class="yg-nav" style="display:flex;align-items:center;gap:28px;font-weight:600;font-size:13px;letter-spacing:.03em;color:rgba(255,255,255,.78)">
+      <a href="#patroni">PATRONI</a><a href="#eventy">EVENTY</a><a href="#vyhry">VÝHRY</a><a href="#levely">LEVELY</a><a href="#cenik">CENÍK</a>
+      <a href="#cenik" class="yg-cta" style="background:#e11414;color:#fff;padding:10px 18px;border-radius:2px;font-weight:800">VSTOUPIT DO HRY</a>
+    </div>
+  </div>
+
+  <!-- ================= HERO — RED IMPACT (1c) ================= -->
+  <section id="top" style="background:#e11414;color:#fff;position:relative;overflow:hidden">
+    <div style="padding:64px 40px 52px;text-align:center;position:relative;z-index:2">
+      <div style="display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:12px;letter-spacing:.2em;color:rgba(255,255,255,.9);margin-bottom:26px">
+        <span style="width:7px;height:7px;background:#0a0a0a;border-radius:50%;animation:yg-pulse 1.6s infinite"></span>TVOJE HRA · TVŮJ ŽIVOT
+      </div>
+      <h1 style="font-family:'Anton',sans-serif;font-weight:400;font-size:104px;line-height:1.22;margin:18px 0 0;text-transform:uppercase;letter-spacing:.01em">
+        Můžeš<br>dosáhnout<br><span style="-webkit-text-stroke:2px #fff;color:transparent">čehokoliv.</span>
+      </h1>
+      <p style="font-size:18px;line-height:1.5;color:rgba(255,255,255,.92);max-width:640px;margin:30px auto 34px;font-weight:600">
+        Vzdělávací platforma pro každého, kdo chce začít podnikat — ať vyšel ze střední, nebo v 50 utíká z korporátu. Za praxi sbíráš XP, AI ti hlídá vývoj a mění kurzy přesně na míru tobě.
+      </p>
+      <div style="display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap">
+        <a href="#cenik" class="yg-cta" style="background:#0a0a0a;color:#fff;font-weight:800;font-size:15px;padding:17px 34px">CHCI HRÁT NAPLNO →</a>
+        <a href="#moduly" class="yg-cta" style="border:2px solid rgba(255,255,255,.7);color:#fff;font-weight:800;font-size:15px;padding:15px 28px">CO SE NAUČÍM</a>
+      </div>
+    </div>
+    <!-- black stat bar -->
+    <div class="yg-statbar" style="background:#0a0a0a;display:grid;grid-template-columns:repeat(4,1fr);text-align:center;border-top:3px solid #0a0a0a">
+      <div style="padding:26px 16px;border-right:1px solid rgba(255,255,255,.1)"><div style="font-family:'Anton',sans-serif;font-size:38px;color:#e11414">100M+</div><div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:600;letter-spacing:.03em;margin-top:2px">firmy vybudované patrony</div></div>
+      <div style="padding:26px 16px;border-right:1px solid rgba(255,255,255,.1)"><div style="font-family:'Anton',sans-serif;font-size:38px;color:#fff">LIVE</div><div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:600;letter-spacing:.03em;margin-top:2px">eventy + online mastermindy</div></div>
+      <div style="padding:26px 16px;border-right:1px solid rgba(255,255,255,.1)"><div style="font-family:'Anton',sans-serif;font-size:38px;color:#fff">24/7</div><div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:600;letter-spacing:.03em;margin-top:2px">AI mentor &amp; scoring</div></div>
+      <div style="padding:26px 16px"><div style="font-family:'Anton',sans-serif;font-size:38px;color:#e11414">∞</div><div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:600;letter-spacing:.03em;margin-top:2px">XP, výhry &amp; přístupy</div></div>
+    </div>
+  </section>
+
+  <!-- ================= MARQUEE transition ================= -->
+  <div style="background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,.08);overflow:hidden;padding:14px 0">
+    <div style="display:flex;width:max-content;animation:yg-marquee 26s linear infinite;font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:15px;letter-spacing:.14em;color:rgba(255,255,255,.55)">
+      <span style="display:flex;gap:34px;padding-right:34px">MARKETING<span style="color:#e11414">✦</span>OBCHOD<span style="color:#e11414">✦</span>PRÁVO<span style="color:#e11414">✦</span>MINDSET<span style="color:#e11414">✦</span>FITNESS<span style="color:#e11414">✦</span>FINANCE<span style="color:#e11414">✦</span></span>
+      <span style="display:flex;gap:34px;padding-right:34px">MARKETING<span style="color:#e11414">✦</span>OBCHOD<span style="color:#e11414">✦</span>PRÁVO<span style="color:#e11414">✦</span>MINDSET<span style="color:#e11414">✦</span>FITNESS<span style="color:#e11414">✦</span>FINANCE<span style="color:#e11414">✦</span></span>
+    </div>
+  </div>
+
+  <!-- ================= BENEFITY — ARENA (1a, black) ================= -->
+  <section style="background:#0a0a0a;padding:66px 40px 56px">
+    <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(225,20,20,.5);color:#ff5252;font-weight:700;font-size:11px;letter-spacing:.14em;padding:7px 12px;border-radius:2px;margin-bottom:22px">
+      <span style="width:6px;height:6px;background:#e11414;border-radius:50%"></span>PROČ YOUR GAME
+    </div>
+    <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:52px;line-height:1.1;margin:6px 0 40px;text-transform:uppercase;max-width:720px">
+      Přestaň se dívat. <span style="color:#e11414">Začni hrát.</span>
+    </h2>
+    <div class="yg-grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <div class="yg-card" style="border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:26px 24px;background:#111">
+        <div style="font-family:'Anton',sans-serif;color:#e11414;font-size:30px;margin-bottom:12px">01</div>
+        <div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:19px;letter-spacing:.02em;margin-bottom:8px">EXPERTI, NE TEORETICI</div>
+        <div style="font-size:14px;line-height:1.55;color:rgba(255,255,255,.62);font-weight:500">Každý patron má 20+ let reálné praxe. Učíš se to, co skutečně funguje v poli — od marketingu po právo.</div>
+      </div>
+      <div class="yg-card" style="border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:26px 24px;background:#111">
+        <div style="font-family:'Anton',sans-serif;color:#e11414;font-size:30px;margin-bottom:12px">02</div>
+        <div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:19px;letter-spacing:.02em;margin-bottom:8px">AI NA MÍRU TOBĚ</div>
+        <div style="font-size:14px;line-height:1.55;color:rgba(255,255,255,.62);font-weight:500">AI sleduje tvůj vývoj a průběžně upravuje kurzy podle toho, jak rosteš. Žádné plýtvání časem na to, co už umíš.</div>
+      </div>
+      <div class="yg-card" style="border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:26px 24px;background:#111">
+        <div style="font-family:'Anton',sans-serif;color:#e11414;font-size:30px;margin-bottom:12px">03</div>
+        <div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:19px;letter-spacing:.02em;margin-bottom:8px">XP ZA REÁLNÝ POSUN</div>
+        <div style="font-size:14px;line-height:1.55;color:rgba(255,255,255,.62);font-weight:500">Za praxi a splněné milníky sbíráš XP a leveluješ. Vidíš černé na bílém, jak se posouváš — a co tě čeká dál.</div>
+      </div>
+    </div>
+    <!-- XP HUD accent -->
+    <div style="margin-top:16px;background:#111;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:20px 24px;display:flex;align-items:center;gap:26px;flex-wrap:wrap">
+      <div style="flex:1;min-width:240px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px">
+          <span style="font-weight:700;font-size:12px;letter-spacing:.06em;color:rgba(255,255,255,.7)">LEVEL 7 · HUSTLER</span>
+          <span style="font-family:'Anton',sans-serif;color:#e11414;font-size:20px">2 340 XP</span>
+        </div>
+        <div style="height:9px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden"><div style="width:68%;height:100%;background:#e11414"></div></div>
+        <div style="margin-top:8px;font-size:12px;color:rgba(255,255,255,.5);font-weight:500">660 XP do dalšího levelu</div>
+      </div>
+      <a href="#cenik" class="yg-cta" style="background:#e11414;color:#fff;font-weight:800;font-size:14px;padding:14px 26px;border-radius:2px">ZAČNI SBÍRAT XP →</a>
+    </div>
+  </section>
+
+  <!-- ================= EVENTY — split online / live ================= -->
+  <section id="eventy" style="background:#0a0a0a;padding:0">
+    <div class="yg-split" style="display:grid;grid-template-columns:1fr 1fr">
+      <!-- online -->
+      <div style="padding:58px 40px 52px;border-right:1px solid rgba(255,255,255,.1)">
+        <div style="font-weight:700;font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.5);margin-bottom:16px">ONLINE</div>
+        <h3 style="font-family:'Anton',sans-serif;font-weight:400;font-size:40px;line-height:1.12;margin:6px 0 16px;text-transform:uppercase">Mastermindy<br>&amp; education</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(255,255,255,.62);font-weight:500;margin:0 0 22px;max-width:400px">Kurzy, které pro tebe připravují sami patroni. Živé online mastermindy, kde řešíš svůj skutečný byznys s lidmi, co ho už postavili.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:500;color:rgba(255,255,255,.82)">
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">→</span>Živé mastermind kruhy každý týden</div>
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">→</span>Videokurzy od patronů, ne teoretiků</div>
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">→</span>AI plán a scoring tvého postupu</div>
+        </div>
+      </div>
+      <!-- live -->
+      <div style="padding:58px 40px 52px;background:#e11414;color:#fff">
+        <div style="font-weight:700;font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.75);margin-bottom:16px">FYZICKY · LIVE</div>
+        <h3 style="font-family:'Anton',sans-serif;font-weight:400;font-size:40px;line-height:1.12;margin:6px 0 16px;text-transform:uppercase">Networking<br>eventy</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(255,255,255,.9);font-weight:600;margin:0 0 22px;max-width:400px">Byznys se dělá mezi lidmi. Potkáš patrony i ostatní hráče naživo — tam, kde vznikají skutečné dealy a partnerství.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;font-weight:600;color:#fff">
+          <div style="display:flex;gap:10px"><span style="color:#0a0a0a;font-weight:900">→</span>Networkingové srazy a byznys večery</div>
+          <div style="display:flex;gap:10px"><span style="color:#0a0a0a;font-weight:900">→</span>Osobní setkání s patrony</div>
+          <div style="display:flex;gap:10px"><span style="color:#0a0a0a;font-weight:900">→</span>Uzavřené akce jen pro vyšší levely</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PATRONI — EDITORIAL (1b, light) ================= -->
+  <section id="patroni" style="background:#f4f2ee;color:#0a0a0a;padding:60px 40px 52px">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:34px;border-bottom:2px solid #0a0a0a;padding-bottom:22px">
+      <div>
+        <div style="font-weight:700;font-size:12px;letter-spacing:.16em;color:#e11414;margin-bottom:14px">UČÍ TĚ TI, KDO TO DOKÁZALI</div>
+        <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:54px;line-height:1.08;margin:4px 0 0;text-transform:uppercase">Naši patroni</h2>
+      </div>
+      <p style="font-size:15px;line-height:1.55;color:rgba(0,0,0,.65);max-width:360px;font-weight:500;margin:0">Patroni jsou mentoři, kteří postavili, vlastní nebo řídí stamilionové až miliardové firmy. Sami připravují veškerý vzdělávací obsah a vedou mastermindy — učíš se přímo od zdroje.</p>
+    </div>
+    <div class="yg-grid4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+      <div class="yg-card" style="border:1px solid rgba(0,0,0,.12);background:#fff;border-radius:8px;overflow:hidden">
+        <div class="yg-photo" style="aspect-ratio:4/5;background:#e6e3dc url('https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80') center 22%/cover no-repeat"></div>
+        <div style="padding:18px 18px 20px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">MARKETING &amp; BRAND</div><div style="font-size:12.5px;color:rgba(0,0,0,.55);font-weight:500;margin-top:2px">22 let v oboru</div></div>
+      </div>
+      <div class="yg-card" style="border:1px solid rgba(0,0,0,.12);background:#fff;border-radius:8px;overflow:hidden">
+        <div class="yg-photo" style="aspect-ratio:4/5;background:#e6e3dc url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80') center 22%/cover no-repeat"></div>
+        <div style="padding:18px 18px 20px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">OBCHOD &amp; SALES</div><div style="font-size:12.5px;color:rgba(0,0,0,.55);font-weight:500;margin-top:2px">28 let v oboru</div></div>
+      </div>
+      <div class="yg-card" style="border:1px solid rgba(0,0,0,.12);background:#fff;border-radius:8px;overflow:hidden">
+        <div class="yg-photo" style="aspect-ratio:4/5;background:#e6e3dc url('https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&q=80') center 22%/cover no-repeat"></div>
+        <div style="padding:18px 18px 20px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">PRÁVO &amp; FIRMA</div><div style="font-size:12.5px;color:rgba(0,0,0,.55);font-weight:500;margin-top:2px">24 let v oboru</div></div>
+      </div>
+      <div class="yg-card" style="border:1px solid rgba(0,0,0,.12);background:#fff;border-radius:8px;overflow:hidden">
+        <div class="yg-photo" style="aspect-ratio:4/5;background:#e6e3dc url('https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80') center 22%/cover no-repeat"></div>
+        <div style="padding:18px 18px 20px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">MINDSET &amp; FITNESS</div><div style="font-size:12.5px;color:rgba(0,0,0,.55);font-weight:500;margin-top:2px">21 let v oboru</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MODULY — ARENA (1a, black) ================= -->
+  <section id="moduly" style="background:#0a0a0a;padding:64px 40px 56px">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:34px">
+      <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:54px;line-height:1.08;margin:4px 0 0;text-transform:uppercase;max-width:640px">Co se <span style="color:#e11414">naučíš</span></h2>
+      <span style="font-weight:600;font-size:13px;color:rgba(255,255,255,.55);letter-spacing:.03em">7 oborů · desítky modulů · postupně se odemyká podle XP</span>
+    </div>
+    <div style="border:1px solid rgba(255,255,255,.1);border-radius:10px;overflow:hidden">
+      <details class="yg-det" style="border-bottom:1px solid rgba(255,255,255,.1)">
+        <summary class="yg-modsum" style="display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:22px;padding:22px 28px;cursor:pointer;list-style:none">
+          <span class="yg-mod-n" style="font-family:'Anton',sans-serif;font-size:26px;color:#e11414">01</span>
+          <div><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:22px;letter-spacing:.02em">MARKETING &amp; ZNAČKA</div><div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px">Od nuly k publiku, které kupuje. Positioning, obsah, výkon.</div></div>
+          <span class="yg-chev" style="font-weight:700;font-size:12px;letter-spacing:.08em;opacity:.6">12 LEKCÍ ＋</span>
+        </summary>
+        <div class="yg-modles" style="padding:4px 28px 22px 82px;display:grid;grid-template-columns:1fr 1fr;gap:2px 28px">
+          <div class="yg-les">01 · Co je positioning a proč rozhoduje</div><div class="yg-les">02 · Ideální zákazník a jeho bolest</div><div class="yg-les">03 · Nabídka, kterou nejde odmítnout</div><div class="yg-les">04 · Osobní i firemní značka</div><div class="yg-les">05 · Obsah, který přitahuje</div><div class="yg-les">06 · Organický dosah na sítích</div><div class="yg-les">07 · Placená reklama od nuly</div><div class="yg-les">08 · Prodejní stránka a funnel</div><div class="yg-les">09 · E-mailový marketing</div><div class="yg-les">10 · Měření a optimalizace</div><div class="yg-les">11 · Škálování rozpočtu</div><div class="yg-les">12 · Case study patrona</div>
+        </div>
+      </details>
+      <details class="yg-det" style="border-bottom:1px solid rgba(255,255,255,.1)">
+        <summary class="yg-modsum" style="display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:22px;padding:22px 28px;cursor:pointer;list-style:none">
+          <span class="yg-mod-n" style="font-family:'Anton',sans-serif;font-size:26px;color:#e11414">02</span>
+          <div><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:22px;letter-spacing:.02em">OBCHOD &amp; VYJEDNÁVÁNÍ</div><div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px">Jak prodat cokoliv komukoliv. Skripty, uzavírání, follow-up.</div></div>
+          <span class="yg-chev" style="font-weight:700;font-size:12px;letter-spacing:.08em;opacity:.6">14 LEKCÍ ＋</span>
+        </summary>
+        <div class="yg-modles" style="padding:4px 28px 22px 82px;display:grid;grid-template-columns:1fr 1fr;gap:2px 28px">
+          <div class="yg-les">01 · Mindset obchodníka</div><div class="yg-les">02 · Hledání a kvalifikace leadů</div><div class="yg-les">03 · První kontakt a otevření</div><div class="yg-les">04 · Zjišťování potřeb</div><div class="yg-les">05 · Prezentace hodnoty</div><div class="yg-les">06 · Práce s cenou</div><div class="yg-les">07 · Zvládání námitek</div><div class="yg-les">08 · Uzavírací techniky</div><div class="yg-les">09 · Follow-up, který prodává</div><div class="yg-les">10 · Telefonní skripty</div><div class="yg-les">11 · Vyjednávání win-win</div><div class="yg-les">12 · Budování dlouhých vztahů</div><div class="yg-les">13 · CRM a systém</div><div class="yg-les">14 · Roleplay s patronem</div>
+        </div>
+      </details>
+      <details class="yg-det" style="border-bottom:1px solid rgba(255,255,255,.1)">
+        <summary class="yg-modsum" style="display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:22px;padding:22px 28px;cursor:pointer;list-style:none">
+          <span class="yg-mod-n" style="font-family:'Anton',sans-serif;font-size:26px;color:#e11414">03</span>
+          <div><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:22px;letter-spacing:.02em">PRÁVO &amp; ZALOŽENÍ FIRMY</div><div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px">s.r.o., smlouvy, daně a jak se nespálit hned na začátku.</div></div>
+          <span class="yg-chev" style="font-weight:700;font-size:12px;letter-spacing:.08em;opacity:.6">9 LEKCÍ ＋</span>
+        </summary>
+        <div class="yg-modles" style="padding:4px 28px 22px 82px;display:grid;grid-template-columns:1fr 1fr;gap:2px 28px">
+          <div class="yg-les">01 · OSVČ vs. s.r.o.</div><div class="yg-les">02 · Krok za krokem založení s.r.o.</div><div class="yg-les">03 · Základy smluvního práva</div><div class="yg-les">04 · Obchodní podmínky a GDPR</div><div class="yg-les">05 · Ochrana značky a duševní vlastnictví</div><div class="yg-les">06 · Daně a účetnictví v kostce</div><div class="yg-les">07 · Zaměstnanci vs. spolupráce</div><div class="yg-les">08 · Nejčastější právní chyby</div><div class="yg-les">09 · Konzultace s patronem</div>
+        </div>
+      </details>
+      <details class="yg-det" style="border-bottom:1px solid rgba(255,255,255,.1)">
+        <summary class="yg-modsum" style="display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:22px;padding:22px 28px;cursor:pointer;list-style:none">
+          <span class="yg-mod-n" style="font-family:'Anton',sans-serif;font-size:26px;color:#e11414">04</span>
+          <div><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:22px;letter-spacing:.02em">FINANCE &amp; KAPITÁL</div><div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px">Cashflow, ceny, reinvestice. Jak s penězi pracovat, ne je utrácet.</div></div>
+          <span class="yg-chev" style="font-weight:700;font-size:12px;letter-spacing:.08em;opacity:.6">10 LEKCÍ ＋</span>
+        </summary>
+        <div class="yg-modles" style="padding:4px 28px 22px 82px;display:grid;grid-template-columns:1fr 1fr;gap:2px 28px">
+          <div class="yg-les">01 · Finanční gramotnost pro podnikatele</div><div class="yg-les">02 · Cashflow a jak ho řídit</div><div class="yg-les">03 · Tvorba cen a marží</div><div class="yg-les">04 · Rozpočet a plánování</div><div class="yg-les">05 · Reinvestice zisku</div><div class="yg-les">06 · Úvěry a financování růstu</div><div class="yg-les">07 · Základy investování</div><div class="yg-les">08 · Daňová optimalizace</div><div class="yg-les">09 · Finanční rezervy a rizika</div><div class="yg-les">10 · Rozbor čísel s patronem</div>
+        </div>
+      </details>
+      <details class="yg-det" style="border-bottom:1px solid rgba(255,255,255,.1)">
+        <summary class="yg-modsum" style="display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:22px;padding:22px 28px;cursor:pointer;list-style:none">
+          <span class="yg-mod-n" style="font-family:'Anton',sans-serif;font-size:26px;color:#e11414">05</span>
+          <div><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:22px;letter-spacing:.02em">MINDSET &amp; DISCIPLÍNA</div><div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px">Návyky, které tě dělají nezastavitelným. Žádné výmluvy.</div></div>
+          <span class="yg-chev" style="font-weight:700;font-size:12px;letter-spacing:.08em;opacity:.6">8 LEKCÍ ＋</span>
+        </summary>
+        <div class="yg-modles" style="padding:4px 28px 22px 82px;display:grid;grid-template-columns:1fr 1fr;gap:2px 28px">
+          <div class="yg-les">01 · Nastavení mysli vítěze</div><div class="yg-les">02 · Cíle a jejich rozklad</div><div class="yg-les">03 · Návyky, které mění život</div><div class="yg-les">04 · Řízení času a energie</div><div class="yg-les">05 · Práce se strachem a prokrastinací</div><div class="yg-les">06 · Odolnost a zvládání tlaku</div><div class="yg-les">07 · Okolí, které tě táhne nahoru</div><div class="yg-les">08 · Denní rutina s patronem</div>
+        </div>
+      </details>
+      <details class="yg-det" style="border-bottom:1px solid rgba(255,255,255,.1)">
+        <summary class="yg-modsum" style="display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:22px;padding:22px 28px;cursor:pointer;list-style:none">
+          <span class="yg-mod-n" style="font-family:'Anton',sans-serif;font-size:26px;color:#e11414">06</span>
+          <div><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:22px;letter-spacing:.02em">FITNESS &amp; ENERGIE</div><div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px">Tělo jako základ výkonu. Trénink, spánek, výživa pro makáče.</div></div>
+          <span class="yg-chev" style="font-weight:700;font-size:12px;letter-spacing:.08em;opacity:.6">7 LEKCÍ ＋</span>
+        </summary>
+        <div class="yg-modles" style="padding:4px 28px 22px 82px;display:grid;grid-template-columns:1fr 1fr;gap:2px 28px">
+          <div class="yg-les">01 · Tělo jako motor výkonu</div><div class="yg-les">02 · Trénink pro zaneprázdněné</div><div class="yg-les">03 · Základy výživy</div><div class="yg-les">04 · Spánek a regenerace</div><div class="yg-les">05 · Energie po celý den</div><div class="yg-les">06 · Zvládání stresu</div><div class="yg-les">07 · Plán s patronem</div>
+        </div>
+      </details>
+      <details class="yg-det">
+        <summary class="yg-modsum" style="display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:22px;padding:22px 28px;cursor:pointer;list-style:none">
+          <span class="yg-mod-n" style="font-family:'Anton',sans-serif;font-size:26px;color:#e11414">07</span>
+          <div><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:22px;letter-spacing:.02em">MANAŽERSKÉ ŘÍZENÍ FIRMY</div><div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px">Od nápadu k řízené firmě. Data, strategie, business plán, investoři.</div></div>
+          <span class="yg-chev" style="font-weight:700;font-size:12px;letter-spacing:.08em;opacity:.6">9 LEKCÍ ＋</span>
+        </summary>
+        <div class="yg-modles" style="padding:4px 28px 22px 82px;display:grid;grid-template-columns:1fr 1fr;gap:2px 28px">
+          <div class="yg-les">01 · Role zakladatele vs. manažera</div><div class="yg-les">02 · Práce s daty a klíčové metriky</div><div class="yg-les">03 · Reporting a rozhodování podle čísel</div><div class="yg-les">04 · Strategická tvorba business plánu</div><div class="yg-les">05 · Modelace a finanční projekce</div><div class="yg-les">06 · Procesy, systémy a delegování</div><div class="yg-les">07 · Vedení a budování týmu</div><div class="yg-les">08 · Příprava pitch decku pro investory</div><div class="yg-les">09 · Jednání s investory s patronem</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= VÝHRY — light premium ================= -->
+  <section id="vyhry" style="background:#f4f2ee;color:#0a0a0a;padding:62px 40px 40px">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:32px;border-bottom:2px solid #0a0a0a;padding-bottom:22px">
+      <div>
+        <div style="font-weight:700;font-size:12px;letter-spacing:.16em;color:#e11414;margin-bottom:14px">HRAJ · SBÍREJ XP · VYHRÁVEJ</div>
+        <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:54px;line-height:1.08;margin:4px 0 0;text-transform:uppercase">Co můžeš vyhrát</h2>
+      </div>
+      <p style="font-size:15px;line-height:1.55;color:rgba(0,0,0,.65);max-width:360px;font-weight:500;margin:0">Za svůj postup a skóre neodemykáš jen obsah. Sbíráš přístupy a zážitky, které si za peníze normálně nekoupíš.</p>
+    </div>
+    <div class="yg-grid4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+      <!-- big highlight: Credentia Aurora -->
+      <div class="yg-card yg-vyhra-big" style="grid-column:span 2;grid-row:span 2;background:#0a0a0a;color:#fff;border:1px solid #0a0a0a;border-radius:10px;padding:30px 28px;display:flex;flex-direction:column;justify-content:space-between;min-height:230px">
+        <div>
+          <div style="font-weight:700;font-size:11px;letter-spacing:.14em;color:#ff5252;margin-bottom:14px">TOP VÝHRA</div>
+          <div style="font-family:'Anton',sans-serif;font-size:34px;line-height:1.12;text-transform:uppercase">Členství<br>Credentia Aurora</div>
+        </div>
+        <div>
+          <div style="font-size:14px;line-height:1.55;color:rgba(255,255,255,.7);font-weight:500;margin:16px 0 12px;max-width:360px">Vstup do privátního klubu, který otevírá dveře k lidem a příležitostem na úplně jiné úrovni.</div>
+          <div style="font-family:'Anton',sans-serif;font-size:30px;color:#e11414">hodnota 156 000 Kč</div>
+        </div>
+      </div>
+      <div class="yg-card" style="background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:10px;padding:22px 20px;min-height:107px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">OSOBNÍ SETKÁNÍ</div><div style="font-size:13px;color:rgba(0,0,0,.55);font-weight:500;margin-top:4px">Tváří v tvář s patronem</div></div>
+      <div class="yg-card" style="background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:10px;padding:22px 20px;min-height:107px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">KONZULTACE 1:1</div><div style="font-size:13px;color:rgba(0,0,0,.55);font-weight:500;margin-top:4px">Tvůj byznys pod drobnohledem</div></div>
+      <div class="yg-card" style="background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:10px;padding:22px 20px;min-height:107px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">MASTERMIND</div><div style="font-size:13px;color:rgba(0,0,0,.55);font-weight:500;margin-top:4px">Místo v uzavřeném kruhu</div></div>
+      <div class="yg-card" style="background:#e11414;color:#fff;border:1px solid #e11414;border-radius:10px;padding:22px 20px;min-height:107px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">TOP EVENTY</div><div style="font-size:13px;color:rgba(255,255,255,.85);font-weight:500;margin-top:4px">Liga mistrů · UFC · NHL · NBA</div></div>
+    </div>
+    <div class="yg-grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px">
+      <div class="yg-card" style="background:#e11414;color:#fff;border:1px solid #e11414;border-radius:10px;padding:22px 20px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">PRIVATE JET &amp; JACHTY</div><div style="font-size:13px;color:rgba(255,255,255,.85);font-weight:500;margin-top:4px">Zážitky pro nejlepší hráče</div></div>
+      <div class="yg-card" style="background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:10px;padding:22px 20px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">LUXUSNÍ &amp; SPORTOVNÍ AUTA</div><div style="font-size:13px;color:rgba(0,0,0,.55);font-weight:500;margin-top:4px">Zapůjčení a jízdní zážitky</div></div>
+      <div class="yg-card" style="background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:10px;padding:22px 20px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.02em">A MNOHEM VÍC</div><div style="font-size:13px;color:rgba(0,0,0,.55);font-weight:500;margin-top:4px">Nové výhry každou sezónu</div></div>
+    </div>
+    <!-- marketplace band -->
+    <div style="margin-top:14px;background:#0a0a0a;color:#fff;border-radius:10px;padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
+      <div style="max-width:640px">
+        <div style="font-weight:700;font-size:11px;letter-spacing:.14em;color:#ff5252;margin-bottom:8px">MARKETPLACE</div>
+        <div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:22px;letter-spacing:.02em">Vydělávej přímo v komunitě</div>
+        <div style="font-size:14px;line-height:1.55;color:rgba(255,255,255,.65);font-weight:500;margin-top:6px">Nabízej svou práci a služby ostatním členům — a najímej ty nejlepší z klubu. Byznys mezi hráči, kteří si věří.</div>
+      </div>
+      <a href="#cenik" class="yg-cta" style="background:#e11414;color:#fff;font-weight:800;font-size:14px;padding:14px 26px;border-radius:2px;white-space:nowrap">CHCI DOVNITŘ →</a>
+    </div>
+  </section>
+
+  <!-- ================= VÝSLEDKY — RED (echo of 1c) ================= -->
+  <section id="vysledky" style="background:#e11414;color:#fff;padding:62px 40px 56px">
+    <div style="text-align:center;margin-bottom:40px">
+      <div style="font-weight:800;font-size:12px;letter-spacing:.2em;color:rgba(255,255,255,.85);margin-bottom:16px">VÝSLEDKY ČLENŮ</div>
+      <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:60px;line-height:1.08;margin:6px 0 0;text-transform:uppercase">Hráči, kteří <span style="-webkit-text-stroke:1.5px #fff;color:transparent">vyhráli</span></h2>
+    </div>
+    <div class="yg-grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <div style="background:#0a0a0a;border-radius:8px;padding:28px 26px">
+        <div style="font-family:'Anton',sans-serif;font-size:40px;color:#e11414;line-height:1">+180 000 Kč</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);font-weight:600;margin:2px 0 16px">první 4 měsíce · e-commerce</div>
+        <p style="font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.85);font-weight:500;margin:0">„Přišel jsem po střední bez plánu. Modul obchod a AI plán mi daly směr, který mi nikdo jiný nedal."</p>
+        <div style="margin-top:16px;font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:14px;letter-spacing:.04em">TOMÁŠ, 19</div>
+      </div>
+      <div style="background:#0a0a0a;border-radius:8px;padding:28px 26px">
+        <div style="font-family:'Anton',sans-serif;font-size:40px;color:#fff;line-height:1">Level 14</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);font-weight:600;margin:2px 0 16px">9 800 XP · konzultační byznys</div>
+        <p style="font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.85);font-weight:500;margin:0">„V 51 jsem odešel z korporátu. Za půl roku mám vlastní firmu a klienty. Patroni jsou zlato."</p>
+        <div style="margin-top:16px;font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:14px;letter-spacing:.04em">PETR, 51</div>
+      </div>
+      <div style="background:#0a0a0a;border-radius:8px;padding:28px 26px">
+        <div style="font-family:'Anton',sans-serif;font-size:40px;color:#e11414;line-height:1">3× obrat</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);font-weight:600;margin:2px 0 16px">za rok · lokální služby</div>
+        <p style="font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.85);font-weight:500;margin:0">„Mastermind 1v1 mi změnil hlavu. Přestala jsem se bát růst a začala jednat."</p>
+        <div style="margin-top:16px;font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:14px;letter-spacing:.04em">LUCIE, 34</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LEVELY / SCORING — ladder ================= -->
+  <section id="levely" style="background:#0a0a0a;padding:66px 40px 58px">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(225,20,20,.5);color:#ff5252;font-weight:700;font-size:11px;letter-spacing:.14em;padding:7px 12px;border-radius:2px;margin-bottom:20px"><span style="width:6px;height:6px;background:#e11414;border-radius:50%"></span>SCORING &amp; LEVELY</div>
+      <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:56px;line-height:1.08;margin:6px 0 0;text-transform:uppercase">Čím výš, tím <span style="color:#e11414">dál se dostaneš</span></h2>
+      <p style="font-size:16px;line-height:1.55;color:rgba(255,255,255,.62);max-width:620px;margin:20px auto 0;font-weight:500">Každý člen má své skóre. AI hodnotí tvůj reálný postup a podle skóre se ti odemyká další level — a s ním svět, do kterého se jinak nedostaneš.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:38px;max-width:860px;margin-left:auto;margin-right:auto">
+      <!-- L1 -->
+      <div class="yg-lvl" style="display:grid;grid-template-columns:120px 1fr;align-items:center;gap:24px;background:#111;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:22px 26px">
+        <div style="font-family:'Anton',sans-serif;font-size:22px;color:rgba(255,255,255,.55)">LEVEL 1–3</div>
+        <div><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:20px;letter-spacing:.02em">ROOKIE</div><div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px">Vzdělávací obsah, AI plán, komunita a první XP.</div></div>
+      </div>
+      <!-- L2 -->
+      <div class="yg-lvl" style="display:grid;grid-template-columns:120px 1fr;align-items:center;gap:24px;background:#111;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:22px 26px">
+        <div style="font-family:'Anton',sans-serif;font-size:22px;color:rgba(255,255,255,.7)">LEVEL 4–6</div>
+        <div><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:20px;letter-spacing:.02em">PLAYER</div><div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px">Networkingové eventy, marketplace a první výhry.</div></div>
+      </div>
+      <!-- L3 -->
+      <div class="yg-lvl" style="display:grid;grid-template-columns:120px 1fr;align-items:center;gap:24px;background:#111;border:1px solid rgba(225,20,20,.4);border-radius:10px;padding:22px 26px">
+        <div style="font-family:'Anton',sans-serif;font-size:22px;color:#ff5252">LEVEL 7–9</div>
+        <div><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:20px;letter-spacing:.02em">INSIDER</div><div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px">Mastermindy, osobní konzultace s patrony a TOP eventy.</div></div>
+      </div>
+      <!-- L4 — top -->
+      <div class="yg-lvl" style="display:grid;grid-template-columns:120px 1fr;align-items:center;gap:24px;background:#e11414;color:#fff;border:1px solid #e11414;border-radius:10px;padding:26px 26px">
+        <div style="font-family:'Anton',sans-serif;font-size:22px;color:#fff">LEVEL 10+</div>
+        <div>
+          <div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:20px;letter-spacing:.02em">INNER CIRCLE</div>
+          <div style="font-size:13.5px;color:rgba(255,255,255,.9);font-weight:600;margin-top:2px">Členství v privátním klubu <strong>Credentia Aurora</strong> a přístup k <strong>Axon Capital</strong> holdingu i <strong>Roofb</strong> investorům.</div>
+        </div>
+      </div>
+    </div>
+    <!-- gateway strip -->
+    <div class="yg-grid3" style="margin-top:22px;max-width:860px;margin-left:auto;margin-right:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center">
+      <div style="background:#111;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:20px 16px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:16px;letter-spacing:.03em">CREDENTIA AURORA</div><div style="font-size:12px;color:rgba(255,255,255,.5);font-weight:500;margin-top:4px">Privátní klub</div></div>
+      <div style="background:#111;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:20px 16px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:16px;letter-spacing:.03em">AXON CAPITAL</div><div style="font-size:12px;color:rgba(255,255,255,.5);font-weight:500;margin-top:4px">Investiční holding</div></div>
+      <div style="background:#111;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:20px 16px"><div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:16px;letter-spacing:.03em">ROOFB</div><div style="font-size:12px;color:rgba(255,255,255,.5);font-weight:500;margin-top:4px">Síť investorů</div></div>
+    </div>
+  </section>
+
+  <!-- ================= CENÍK — ARENA (1a, black) ================= -->
+  <section id="cenik" style="background:#0a0a0a;padding:66px 40px 58px;border-top:1px solid rgba(255,255,255,.08)">
+    <div style="text-align:center;margin-bottom:42px">
+      <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(225,20,20,.5);color:#ff5252;font-weight:700;font-size:11px;letter-spacing:.14em;padding:7px 12px;border-radius:2px;margin-bottom:20px"><span style="width:6px;height:6px;background:#e11414;border-radius:50%"></span>ČLENSTVÍ</div>
+      <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:56px;line-height:1.08;margin:6px 0 0;text-transform:uppercase">Vyber si, jak <span style="color:#e11414">hluboko</span> půjdeš</h2>
+    </div>
+    <div class="yg-grid3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:stretch">
+      <!-- Base -->
+      <div style="border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:30px 26px;background:#111;display:flex;flex-direction:column">
+        <div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.06em;color:rgba(255,255,255,.7)">ZÁKLAD</div>
+        <div style="margin:14px 0 4px"><span style="font-family:'Anton',sans-serif;font-size:46px">2 500</span><span style="font-size:16px;color:rgba(255,255,255,.6);font-weight:600"> Kč / měsíc</span></div>
+        <div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-bottom:20px">Vstup do hry pro každého.</div>
+        <div style="display:flex;flex-direction:column;gap:11px;font-size:14px;font-weight:500;color:rgba(255,255,255,.82);flex:1">
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">✓</span>Všech 6 oborů a moduly</div>
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">✓</span>AI plán a kurzy na míru</div>
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">✓</span>XP, levely a milníky</div>
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">✓</span>Komunita členů</div>
+        </div>
+        <a href="#top" class="yg-cta" style="margin-top:24px;text-align:center;border:2px solid rgba(255,255,255,.7);color:#fff;font-weight:800;font-size:14px;padding:14px">ZAČÍT TEĎ</a>
+      </div>
+      <!-- Packs (highlighted) -->
+      <div style="border:2px solid #e11414;border-radius:10px;padding:30px 26px;background:#e11414;display:flex;flex-direction:column;position:relative">
+        <span style="position:absolute;top:-12px;left:26px;background:#0a0a0a;color:#fff;font-weight:800;font-size:11px;letter-spacing:.1em;padding:6px 12px;border-radius:2px">NEJOBLÍBENĚJŠÍ</span>
+        <div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.06em">ZÁKLAD + BALÍČKY</div>
+        <div style="margin:14px 0 4px"><span style="font-family:'Anton',sans-serif;font-size:46px">2 500</span><span style="font-size:16px;font-weight:600"> Kč + balíčky</span></div>
+        <div style="font-size:13.5px;color:rgba(255,255,255,.85);font-weight:500;margin-bottom:20px">Přidej si hloubkové balíčky od konkrétních patronů.</div>
+        <div style="display:flex;flex-direction:column;gap:11px;font-size:14px;font-weight:600;color:#fff;flex:1">
+          <div style="display:flex;gap:10px"><span style="color:#0a0a0a;font-weight:900">✓</span>Vše ze Základu</div>
+          <div style="display:flex;gap:10px"><span style="color:#0a0a0a;font-weight:900">✓</span>Prémiové balíčky patronů</div>
+          <div style="display:flex;gap:10px"><span style="color:#0a0a0a;font-weight:900">✓</span>Hloubkové case studies</div>
+          <div style="display:flex;gap:10px"><span style="color:#0a0a0a;font-weight:900">✓</span>Přednostní XP odměny</div>
+        </div>
+        <a href="#top" class="yg-cta" style="margin-top:24px;text-align:center;background:#0a0a0a;color:#fff;font-weight:800;font-size:14px;padding:14px">CHCI VÍC →</a>
+      </div>
+      <!-- Mastermind -->
+      <div style="border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:30px 26px;background:#111;display:flex;flex-direction:column">
+        <div style="font-family:'Archivo Narrow',sans-serif;font-weight:800;font-size:17px;letter-spacing:.06em;color:rgba(255,255,255,.7)">MASTERMIND</div>
+        <div style="margin:14px 0 4px"><span style="font-family:'Anton',sans-serif;font-size:46px">100 000</span><span style="font-size:16px;color:rgba(255,255,255,.6);font-weight:600"> Kč / půl roku</span></div>
+        <div style="font-size:13.5px;color:rgba(255,255,255,.55);font-weight:500;margin-bottom:20px">Výběrové — jen pro nejlepší hráče.</div>
+        <div style="display:flex;flex-direction:column;gap:11px;font-size:14px;font-weight:500;color:rgba(255,255,255,.82);flex:1">
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">✓</span>Mentoring 1v1 s patrony</div>
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">✓</span>Skupinové mastermindy</div>
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">✓</span>Přístup jen pro vybrané</div>
+          <div style="display:flex;gap:10px"><span style="color:#e11414;font-weight:800">✓</span>Přímé napojení na síť</div>
+        </div>
+        <a href="#top" class="yg-cta" style="margin-top:24px;text-align:center;border:2px solid rgba(255,255,255,.7);color:#fff;font-weight:800;font-size:14px;padding:14px">PODAT PŘIHLÁŠKU</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FINAL CTA — RED IMPACT (1c) ================= -->
+  <section style="background:#e11414;color:#fff;padding:76px 40px;text-align:center">
+    <div style="font-weight:800;font-size:12px;letter-spacing:.2em;color:rgba(255,255,255,.85);margin-bottom:22px">TVOJE HRA · TVŮJ ŽIVOT</div>
+    <h2 style="font-family:'Anton',sans-serif;font-weight:400;font-size:78px;line-height:1.1;margin:8px 0 0;text-transform:uppercase">Tvůj tah.</h2>
+    <p style="font-size:18px;line-height:1.5;color:rgba(255,255,255,.92);max-width:520px;margin:24px auto 32px;font-weight:600">Nikdo za tebe hrát nebude. Vstup do hry, sbírej XP a postav si život, který chceš.</p>
+    <a href="#cenik" class="yg-cta" style="background:#0a0a0a;color:#fff;font-weight:800;font-size:16px;padding:19px 40px;display:inline-block">VSTOUPIT DO HRY →</a>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer style="background:#0a0a0a;color:rgba(255,255,255,.55);padding:38px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:22px;height:22px;background:#e11414;transform:skewX(-10deg)"></div>
+      <span style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:.04em;color:#fff">YOUR GAME</span>
+    </div>
+    <div style="display:flex;gap:24px;font-size:13px;font-weight:600;flex-wrap:wrap">
+      <a href="#patroni">Patroni</a><a href="#eventy">Eventy</a><a href="#vyhry">Výhry</a><a href="#levely">Levely</a><a href="#cenik">Ceník</a>
+    </div>
+    <div style="font-size:12px;font-weight:500;text-align:right">Součást ekosystému Credentia Aurora · Axon Capital · Roofb<br>© 2026 Your Game — Tvoje hra, tvůj život.</div>
+  </footer>
+
+</div>
+
+</x-dc>
+
+<script>
+(function(){
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function ready(fn){ if(document.readyState!=='loading'){fn();} else {document.addEventListener('DOMContentLoaded',fn);} }
+
+  ready(function(){
+
+    /* ---- scroll progress bar ---- */
+    var bar=document.createElement('div'); bar.className='yg-progress'; document.body.appendChild(bar);
+    function onScroll(){
+      var h=document.documentElement.scrollHeight-window.innerHeight;
+      bar.style.width=(h>0?Math.min(window.pageYOffset/h*100,100):0)+'%';
+      var nav=document.querySelector('.yg-navbar');
+      if(nav) nav.classList.toggle('yg-shrink', window.pageYOffset>28);
+    }
+    window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+    /* ---- CTA shine element ---- */
+    document.querySelectorAll('.yg-cta').forEach(function(a){
+      if(a.querySelector('.yg-shine')) return;
+      var s=document.createElement('span'); s.className='yg-shine'; a.appendChild(s);
+    });
+
+    /* ---- active nav link on scroll ---- */
+    var links=[].slice.call(document.querySelectorAll('.yg-nav a[href^="#"]'));
+    var map={}; links.forEach(function(a){ if(!a.classList.contains('yg-cta')) map[a.getAttribute('href').slice(1)]=a; });
+    if('IntersectionObserver' in window){
+      var secObs=new IntersectionObserver(function(ents){
+        ents.forEach(function(e){ var a=map[e.target.id]; if(a&&e.isIntersecting){ links.forEach(function(x){x.classList.remove('yg-active');}); a.classList.add('yg-active'); } });
+      },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+      ['patroni','eventy','vyhry','levely','cenik'].forEach(function(id){ var s=document.getElementById(id); if(s) secObs.observe(s); });
+    }
+
+    if(RM || !('IntersectionObserver' in window)) return;  /* honour reduced motion */
+
+    /* ---- reveal-on-scroll (outermost blocks only; hero handled by CSS) ---- */
+    var sel='h1,h2,h3,p,.yg-card,.yg-det,.yg-lvl,.yg-split>div,[class*="yg-grid"]>*,section .yg-cta';
+    var els=[].slice.call(document.querySelectorAll(sel)).filter(function(el){ return !el.closest('#top'); });
+    var set=new Set(els);
+    els=els.filter(function(el){ var p=el.parentElement; while(p){ if(set.has(p)) return false; p=p.parentElement; } return true; });
+    var groups=new Map();
+    els.forEach(function(el){ var k=el.parentElement; if(!groups.has(k)) groups.set(k,[]); groups.get(k).push(el); el.classList.add('yg-reveal'); });
+    groups.forEach(function(list){ list.forEach(function(el,i){ el.style.transitionDelay=Math.min(i*70,420)+'ms'; }); });
+    var revObs=new IntersectionObserver(function(ents){
+      ents.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('yg-in'); revObs.unobserve(e.target); } });
+    },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el){
+      var r=el.getBoundingClientRect();
+      if(r.top < window.innerHeight*0.95 && r.bottom > 0){ el.classList.add('yg-in'); } /* already visible: show instantly, no flash */
+      else { revObs.observe(el); }
+    });
+
+    /* ---- count-up numbers ---- */
+    function countUp(el){
+      if(el.dataset.counted) return; el.dataset.counted='1';
+      var raw=(el.textContent||'').trim();
+      var m=raw.match(/^([^\d]*?)(\d[\d\s.,]*)(.*)$/);
+      if(!m) return;
+      var pre=m[1], numStr=m[2], suf=m[3];
+      var target=parseInt(numStr.replace(/[^\d]/g,''),10);
+      if(!isFinite(target)) return;
+      var spaced=/\s/.test(numStr);
+      function fmt(n){ return spaced ? n.toLocaleString('cs-CZ').replace(/ /g,' ') : String(n); }
+      var dur=1150, start=null;
+      function step(ts){ if(!start)start=ts; var p=Math.min((ts-start)/dur,1); var e=1-Math.pow(1-p,3); el.textContent=pre+fmt(Math.round(e*target))+suf; if(p<1) requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    }
+    var counters=[].slice.call(document.querySelectorAll('.yg-statbar>div>div:first-child, #vysledky [class*="yg-grid"]>div>div:first-child'));
+    var cObs=new IntersectionObserver(function(ents){
+      ents.forEach(function(e){ if(e.isIntersecting){ countUp(e.target); cObs.unobserve(e.target); } });
+    },{threshold:0.6});
+    counters.forEach(function(el){ cObs.observe(el); });
+
+    /* ---- XP progress bar fill ---- */
+    var xp=document.querySelector('[style*="width:68%"]');
+    if(xp){
+      xp.style.transition='width 1.25s cubic-bezier(.2,.7,.16,1)';
+      xp.style.width='0%';
+      var xObs=new IntersectionObserver(function(ents){
+        ents.forEach(function(e){ if(e.isIntersecting){ requestAnimationFrame(function(){ xp.style.width='68%'; }); xObs.unobserve(e.target); } });
+      },{threshold:0.4});
+      xObs.observe(xp);
+    }
+
+    /* ---- subtle hero parallax ---- */
+    var hero=document.getElementById('top');
+    if(hero){
+      var content=hero.querySelector('div');
+      hero.addEventListener('pointermove',function(ev){
+        var r=hero.getBoundingClientRect();
+        var dx=((ev.clientX-r.left)/r.width-0.5), dy=((ev.clientY-r.top)/r.height-0.5);
+        if(content) content.style.transform='translate3d('+(dx*10).toFixed(1)+'px,'+(dy*8).toFixed(1)+'px,0)';
+      });
+      hero.addEventListener('pointerleave',function(){ if(content) content.style.transform=''; });
+    }
+
+  });
+})();
+</script>
+</body>
+</html>
